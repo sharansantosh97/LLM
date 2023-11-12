@@ -19,7 +19,8 @@ import os
 
 load_dotenv()
 
-api_key = os.getenv('OPENAI_API_KEY')  
+# api_key = os.getenv('OPENAI_API_KEY') 
+api_key = st.secrets["OPENAI_API_KEY"]
 
 
 async def main():

@@ -15,8 +15,7 @@ import io
 import asyncio
 import os
 
-
-os.environ["OPENAI_API_KEY"] = "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"
+# os.environ["OPENAI_API_KEY"] = ""
 
 load_dotenv()
 

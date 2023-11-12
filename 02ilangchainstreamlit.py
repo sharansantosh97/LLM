@@ -16,7 +16,7 @@ import asyncio
 import os
 
 
-os.environ["OPENAI_API_KEY"] = "Insert your API key here"
+os.environ["OPENAI_API_KEY"] = "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"
 
 load_dotenv()
 
@@ -24,7 +24,7 @@ api_key = os.getenv('OPENAI_API_KEY')
 
 
 async def main():
-    st.title('Chat with any PDF!!')
+    st.title('Economic and Social Sustainability of Marginalized and Highly Vulnerable communities')
     # 
     async def storeDocEmbeds(file, filename):
     
@@ -52,12 +52,12 @@ async def main():
             pickle.dump(vectors, f)
 
         
-    async def getDocEmbeds(file, filename):
+    async def getDocEmbeds():
         
-        if not os.path.isfile(filename + ".pkl"):
-            await storeDocEmbeds(file, filename)
+        # if not os.path.isfile(filename + ".pkl"):
+        #     await storeDocEmbeds(file, filename)
         
-        with open(filename + ".pkl", "rb") as f:
+        with open("allfourmerged.pdf" + ".pkl", "rb") as f:
             global vectores
             vectors = pickle.load(f)
             
@@ -80,31 +80,34 @@ async def main():
 
 
     #Creating the chatbot interface
-    st.title("PDFChat :")
+    st.title("You can ask anything about - Economic and Social Sustainability")
 
     if 'ready' not in st.session_state:
         st.session_state['ready'] = False
 
-    uploaded_file = st.file_uploader("Choose a file", type="pdf")
+    # uploaded_file = st.file_uploader("Choose a file", type="pdf")
 
-    if uploaded_file is not None:
+    # if uploaded_file is not None:
 
-        with st.spinner("Processing..."):
-        # Add your code here that needs to be executed
-            uploaded_file.seek(0)
-            file = uploaded_file.read()
-            # pdf = PyPDF2.PdfFileReader()
-            vectors = await getDocEmbeds(io.BytesIO(file), uploaded_file.name)
-            qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(model_name="gpt-3.5-turbo"), retriever=vectors.as_retriever(), return_source_documents=True)
+    #     with st.spinner("Processing..."):
+    #     # Add your code here that needs to be executed
+    #         uploaded_file.seek(0)
+    #         file = uploaded_file.read()
+    #         # pdf = PyPDF2.PdfFileReader()
+    #         vectors = await getDocEmbeds(io.BytesIO(file), uploaded_file.name)
+    #         qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(model_name="gpt-3.5-turbo"), retriever=vectors.as_retriever(), return_source_documents=True)
 
-        st.session_state['ready'] = True
+    vectors = await getDocEmbeds()
+    qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(model_name="gpt-3.5-turbo"), retriever=vectors.as_retriever(), return_source_documents=True)
+    st.session_state['ready'] = True
 
-    st.divider()
+    # st.divider()
 
     if st.session_state['ready']:
 
         if 'generated' not in st.session_state:
-            st.session_state['generated'] = ["Welcome! You can now ask any questions regarding " + uploaded_file.name]
+            # st.session_state['generated'] = ["Welcome! You can now ask any questions regarding " + uploaded_file.name]
+            st.session_state['generated'] = ["Welcome! You can now ask any questions regarding - Economic and Social Sustainability"]
 
         if 'past' not in st.session_state:
             st.session_state['past'] = ["Hey!"]
@@ -117,7 +120,7 @@ async def main():
 
         with container:
             with st.form(key='my_form', clear_on_submit=True):
-                user_input = st.text_input("Query:", placeholder="e.g: Summarize the paper in a few sentences", key='input')
+                user_input = st.text_input("Query:", placeholder="e.g: List Economic Sustainability statements", key='input')
                 submit_button = st.form_submit_button(label='Send')
 
             if submit_button and user_input:

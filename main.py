@@ -16,11 +16,12 @@ import asyncio
 import os
 
 
-os.environ["OPENAI_API_KEY"] = "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"
+# os.environ["OPENAI_API_KEY"] = ""
 
 load_dotenv()
 
-api_key = os.getenv('OPENAI_API_KEY')  
+# api_key = os.getenv('OPENAI_API_KEY') 
+api_key = st.secrets["OPENAI_API_KEY"] 
 
 project_dir = os.path.dirname(__file__)
 file_relative_path = "allfourmerged.pdf"

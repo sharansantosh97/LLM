@@ -20,15 +20,15 @@ import os
 
 load_dotenv()
 
-# api_key = os.getenv('OPENAI_API_KEY') 
-api_key = st.secrets["OPENAI_API_KEY"] 
+api_key = os.getenv('OPENAI_API_KEY') 
+# api_key = st.secrets["OPENAI_API_KEY"] 
 
 project_dir = os.path.dirname(__file__)
 file_relative_path = "allfourmerged.pdf"
 file_path = os.path.join(project_dir, file_relative_path)
 
 async def main():
-    st.title('Economic and Social Sustainability of Marginalized and Highly Vulnerable communities')
+    st.title('Budget Chat GPT')
     # 
     async def storeDocEmbeds(file, filename):
     
